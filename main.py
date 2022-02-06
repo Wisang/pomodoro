@@ -7,9 +7,9 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 2
-SHORT_BREAK_MIN = 1
-LONG_BREAK_MIN = 3
+WORK_MIN = 25
+SHORT_BREAK_MIN = 5
+LONG_BREAK_MIN = 20
 reps = 0
 checked = ""
 timer = None
@@ -35,13 +35,13 @@ def start_timer():
     long_break_sec = LONG_BREAK_MIN * 60
 
     if reps % 8 == 0:
-        head_label.config(text="Long Break", fg=RED)
+        head_label.config(text="Break", fg=RED)
         count_down(long_break_sec)
     elif reps % 2 == 0:
-        head_label.config(text="Short Break", fg=PINK)
+        head_label.config(text="Break", fg=PINK)
         count_down(short_break_sec)
     else:
-        head_label.config(text="Working", fg=GREEN)
+        head_label.config(text="Work", fg=GREEN)
         count_down(work_sec)
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
@@ -57,10 +57,10 @@ def count_down(count):
     canvas.itemconfig(timer_text, text=formatted_count)
     if count > 0:
         global timer
-        timer = window.after(20, count_down, count-1)
+        timer = window.after(1000, count_down, count-1)
     else:
         if reps % 2 != 0:
-            checked += "v"
+            checked += "✔"
         check_label.config(text=checked)
         start_timer()
 
@@ -68,9 +68,9 @@ def count_down(count):
 
 window = Tk()
 window.title("Pomodoro")
-window.config(padx=100, pady=50, bg=YELLOW)
+window.config(padx=50, pady=50, bg=YELLOW)
 
-head_label = Label(text="Timer", fg=GREEN, bg=YELLOW, font=(FONT_NAME, 50, "bold"))
+head_label = Label(text="Timer", fg=GREEN, bg=YELLOW, font=(FONT_NAME, 30, "bold"))
 head_label.grid(column=1, row=0)
 
 check_label = Label(fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20, "bold"))
